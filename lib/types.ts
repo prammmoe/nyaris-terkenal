@@ -17,6 +17,7 @@ export type Category = {
   difficulty: Difficulty;
   metric: string;
   sourceLabel: string;
+  sourceUrl: string;
   dataAsOf: string;
   answers: Answer[];
   nearMisses?: Answer[];
