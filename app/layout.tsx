@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CookieConsent from "../components/cookie-consent";
 import PostHogWebVitals from "../components/posthog-web-vitals";
 import "./globals.css";
 
@@ -32,6 +33,7 @@ export default function Layout({
       <body>
         <PostHogWebVitals />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

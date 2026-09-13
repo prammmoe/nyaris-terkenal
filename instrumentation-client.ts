@@ -12,6 +12,7 @@ if (key) {
     disable_session_recording: true,
     disable_surveys: true,
     disable_web_experiments: true,
+    opt_out_capturing_by_default: true,
     person_profiles: "identified_only",
   });
 }

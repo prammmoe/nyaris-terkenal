@@ -1002,3 +1002,5 @@ nav > div a {
 .mechanic span,
 .mechanic strong,
 .rule-grid article p { color: rgba(255, 255, 255, 0.88); }
+
+.cookie-consent{position:fixed;z-index:20;left:20px;right:20px;bottom:20px;max-width:680px;margin:auto;display:flex;align-items:center;gap:24px;padding:18px 20px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 16px 40px rgba(41,38,77,.22)}.cookie-consent strong{font-size:16px}.cookie-consent p{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.45}.cookie-consent p a{color:var(--purple-dark);text-decoration:underline}.cookie-actions{display:flex;gap:10px;flex-shrink:0}.cookie-actions .primary,.cookie-actions .secondary{padding:10px 14px;font-size:13px;white-space:nowrap}@media(max-width:620px){.cookie-consent{align-items:stretch;flex-direction:column;gap:14px}.cookie-actions{justify-content:flex-end}}

@@ -730,21 +730,22 @@ function PrivacyPage() {
         <section>
           <h2>Ringkasnya</h2>
           <p>
-            Nyaris Terkenal menggunakan PostHog untuk memahami jumlah kunjungan,
-            cara permainan digunakan, performa situs, dan error teknis. Kami
-            tidak sengaja mengirim nama pemain, isi jawaban, atau kata pencarian
-            ke analytics.
+            Nyaris Terkenal menggunakan layanan analytics untuk memahami jumlah
+            kunjungan, cara permainan digunakan, performa situs, dan error
+            teknis setelah Anda mengizinkan cookie analytics. Kami tidak
+            mengumpulkan atau mengirim nama pemain, isi jawaban, atau kata
+            pencarian ke analytics.
           </p>
         </section>
         <section>
           <h2>Data yang dikumpulkan</h2>
           <p>
-            PostHog dapat memproses identifier cookie atau sesi, halaman dan
-            referrer, jenis perangkat dan browser, lokasi kasar yang diturunkan
-            dari koneksi, waktu interaksi, metrik performa, serta detail error
-            teknis. Kami juga mengirim data permainan berbentuk agregat seperti
-            mode, jumlah pemain dan ronde, ID kategori, hasil tebakan, rank,
-            dan skor.
+            Layanan analytics dapat memproses identifier cookie atau sesi,
+            halaman dan referrer, jenis perangkat dan browser, lokasi kasar
+            yang diturunkan dari koneksi, waktu interaksi, metrik performa,
+            serta detail error teknis. Kami juga mengirim data permainan
+            berbentuk agregat seperti mode, jumlah pemain dan ronde, ID
+            kategori, hasil tebakan, rank, dan skor.
           </p>
         </section>
         <section>
@@ -752,8 +753,8 @@ function PrivacyPage() {
           <p>
             Data dipakai untuk mengukur pengunjung, menemukan alur permainan
             yang perlu diperbaiki, menjaga performa, dan memperbaiki error.
-            PostHog adalah penyedia analytics kami; data diproses melalui
-            layanan PostHog Cloud di Amerika Serikat.
+            Data diproses oleh penyedia layanan analytics pihak ketiga di
+            Amerika Serikat.
           </p>
         </section>
         <section>
@@ -765,8 +766,8 @@ function PrivacyPage() {
             <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
               prammmoe.space
             </a>
-            . Data disimpan sesuai pengaturan retensi PostHog dan selama
-            diperlukan untuk tujuan di atas.
+            . Data disimpan sesuai pengaturan retensi layanan analytics dan
+            selama diperlukan untuk tujuan di atas.
           </p>
         </section>
       </section>
