@@ -25,6 +25,7 @@ Branch: `unbranched workspace`
 - Replaced remaining “obscure” UI copy with Indonesian phrasing.
 - Renamed the two-player Cara Main example to Wiwi and Wuwu.
 - Released manifest and visible navigation label as v1.2.0.
+- Added a self-hosted Open Graph image route and share metadata for link previews.
 
 ### Stayed The Same
 
