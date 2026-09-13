@@ -618,7 +618,13 @@ function Final({
           </div>
         )}
         <div className="actions">
-          <button className="primary" onClick={() => setGame(null)}>
+          <button
+            className="primary"
+            onClick={() => {
+              posthog.capture("game_restarted", { game_mode: game.mode });
+              setGame(null);
+            }}
+          >
             Main Lagi
           </button>
           <Link className="secondary" href="/">

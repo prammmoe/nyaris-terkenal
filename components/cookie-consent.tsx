@@ -10,8 +10,13 @@ export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_POSTHOG_KEY && !localStorage.getItem(consentKey))
-      setVisible(true);
+    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) return;
+    const consent = localStorage.getItem(consentKey);
+    if (consent === "accepted") {
+      posthog.opt_in_capturing();
+      posthog.capture("$pageview", { $current_url: window.location.href });
+    } else if (consent === "rejected") posthog.opt_out_capturing();
+    else setVisible(true);
   }, []);
 
   const choose = (allowed: boolean) => {
