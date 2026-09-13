@@ -792,7 +792,7 @@ function SupportPage() {
         </span>
         <span className="kicker">DUKUNG WEBSITE INI</span>
         <h1>Dukung website ini.</h1>
-        <p>Kalau website ini bikin kamu senang, terima kasih.</p>
+        <p>Kalau website ini bikin kamu senang, terima kasih ❤️</p>
         <a
           className="primary support-link"
           href="https://saweria.co/prammmoe"
