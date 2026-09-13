@@ -26,6 +26,7 @@ Branch: `unbranched workspace`
 - Renamed the two-player Cara Main example to Wiwi and Wuwu.
 - Released manifest and visible navigation label as v1.2.0.
 - Added a self-hosted Open Graph image route and share metadata for link previews.
+- Added a site-wide copyright footer with the developer credit for Prammmoe.
 
 ### Stayed The Same
 

@@ -127,6 +127,7 @@ nav > div a {
   font-size: 14px;
   box-shadow: 0 3px 0 var(--purple-dark);
 }
+.site-footer{padding:28px 24px 36px;text-align:center;color:var(--muted);font-size:13px;font-weight:800}.site-footer a{color:var(--purple-dark);text-decoration:underline;text-underline-offset:3px}
 .kicker,
 .eyebrow {
   font-size: 11px;

@@ -85,6 +85,16 @@ function Nav() {
     </nav>
   );
 }
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      © 2026 Nyaris Terkenal · Developed by{" "}
+      <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
+        Prammmoe
+      </a>
+    </footer>
+  );
+}
 function CategoryTile({ category }: { category: Category }) {
   return (
     <span
@@ -278,6 +288,7 @@ function Setup({
           Mulai Main →
         </button>
       </section>
+      <SiteFooter />
     </main>
   );
 }
@@ -438,6 +449,7 @@ function Play({
       {game.status === "round-result" && !last && (
         <RoundEnd game={game} setGame={setGame} />
       )}
+      <SiteFooter />
     </main>
   );
 }
@@ -543,6 +555,7 @@ function Final({
           </Link>
         </div>
       </section>
+      <SiteFooter />
     </main>
   );
 }
@@ -631,6 +644,7 @@ function AboutPage() {
           </small>
         </section>
       </section>
+      <SiteFooter />
     </main>
   );
 }
@@ -677,6 +691,7 @@ export default function GameApp({
           <h1>Pilih kategori yang seru</h1>
           <CategoryBrowser />
         </section>
+        <SiteFooter />
       </main>
     );
   if (page === "about") return <AboutPage />;
@@ -753,6 +768,7 @@ export default function GameApp({
           Lihat semua kategori →
         </Link>
       </section>
+      <SiteFooter />
     </main>
   );
 }
