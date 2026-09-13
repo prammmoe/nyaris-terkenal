@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import PostHogWebVitals from "../components/posthog-web-vitals";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +29,10 @@ export default function Layout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id">
-      <body>{children}</body>
+      <body>
+        <PostHogWebVitals />
+        {children}
+      </body>
     </html>
   );
 }

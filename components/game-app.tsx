@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useEffect, useMemo, useState } from "react";
 import packageJson from "../package.json";
 import { allTags, categories } from "../lib/data";
@@ -88,10 +89,16 @@ function Nav() {
 function SiteFooter() {
   return (
     <footer className="site-footer">
-      © 2026 Nyaris Terkenal · Developed by{" "}
-      <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
-        Prammmoe
-      </a>
+      <p>
+        Situs ini menggunakan analytics untuk memahami penggunaan dan
+        memperbaiki permainan. <Link href="/privacy">Kebijakan Privasi</Link>
+      </p>
+      <p>
+        © 2026 Nyaris Terkenal · Developed by{" "}
+        <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
+          Prammmoe
+        </a>
+      </p>
     </footer>
   );
 }
@@ -148,7 +155,15 @@ function Setup({
       mode === "quick"
         ? chosen.slice(0, 1)
         : selectRandomCategories(categories, chosen, rounds);
-    onStart(freshGame(mode, selected, teamNames, guesses, reveal));
+    const game = freshGame(mode, selected, teamNames, guesses, reveal);
+    posthog.capture("game_started", {
+      game_mode: mode,
+      player_count: game.players.length,
+      round_count: game.categories.length,
+      guesses_per_player: guesses,
+      reveal_answers: reveal,
+    });
+    onStart(game);
   };
   return (
     <main>
@@ -269,8 +284,13 @@ function Setup({
                   category={c}
                   select={() =>
                     setChosen((prev) => {
-                      if (prev.some((x) => x.id === c.id))
-                        return prev.filter((x) => x.id !== c.id);
+                      const selected = !prev.some((x) => x.id === c.id);
+                      posthog.capture("category_selected", {
+                        category_id: c.id,
+                        game_mode: mode,
+                        selected,
+                      });
+                      if (!selected) return prev.filter((x) => x.id !== c.id);
                       if (mode === "quick") return [c];
                       return prev.length < rounds ? [...prev, c] : prev;
                     })
@@ -370,6 +390,35 @@ function Play({
   const submit = () => {
     if (!input.trim()) return;
     const response = submitGuess(game, input);
+    const result = response.guess.duplicate
+      ? "duplicate"
+      : response.guess.valid
+        ? "valid"
+        : response.guess.nearMissRank
+          ? "near_miss"
+          : "invalid";
+    posthog.capture("guess_submitted", {
+      game_mode: game.mode,
+      category_id: category.id,
+      round_index: game.currentRound + 1,
+      result,
+      rank: response.guess.valid ? response.guess.rank : undefined,
+      points: response.guess.points,
+    });
+    if (response.game.status === "round-result") {
+      const completedRound = response.game.rounds[game.currentRound];
+      posthog.capture("round_completed", {
+        game_mode: game.mode,
+        category_id: category.id,
+        round_index: game.currentRound + 1,
+        valid_guess_count: completedRound.guesses.filter((guess) => guess.valid)
+          .length,
+        total_points: completedRound.guesses.reduce(
+          (total, guess) => total + guess.points,
+          0,
+        ),
+      });
+    }
     setGame(response.game);
     setInput("");
     setLast(response.guess);
@@ -383,7 +432,17 @@ function Play({
           <span>
             RONDE {game.currentRound + 1} / {game.categories.length}
           </span>
-          <button className="reset" onClick={() => setGame(null)}>
+          <button
+            className="reset"
+            onClick={() => {
+              posthog.capture("game_reset", {
+                game_mode: game.mode,
+                round_index: game.currentRound + 1,
+                game_status: game.status,
+              });
+              setGame(null);
+            }}
+          >
             Reset game
           </button>
         </div>
@@ -463,9 +522,21 @@ function RoundEnd({
   const round = game.rounds[game.currentRound];
   const category = game.categories[game.currentRound];
   const next = () => {
-    if (game.currentRound + 1 >= game.categories.length)
+    if (game.currentRound + 1 >= game.categories.length) {
+      posthog.capture("game_completed", {
+        game_mode: game.mode,
+        player_count: game.players.length,
+        round_count: game.categories.length,
+        highest_score: Math.max(...game.players.map((player) => player.score)),
+        best_rank: Math.max(
+          0,
+          ...game.rounds.flatMap((round) =>
+            round.guesses.filter((guess) => guess.valid).map((guess) => guess.rank || 0),
+          ),
+        ),
+      });
       setGame({ ...game, status: "finished" });
-    else
+    } else
       setGame({
         ...game,
         currentRound: game.currentRound + 1,
@@ -648,10 +719,65 @@ function AboutPage() {
     </main>
   );
 }
+function PrivacyPage() {
+  return (
+    <main>
+      <Nav />
+      <section className="shell privacy">
+        <span className="kicker">KEBIJAKAN PRIVASI</span>
+        <h1>Data yang kami gunakan, tanpa teka-teki.</h1>
+        <p className="lede">Terakhir diperbarui: 13 September 2026.</p>
+        <section>
+          <h2>Ringkasnya</h2>
+          <p>
+            Nyaris Terkenal menggunakan PostHog untuk memahami jumlah kunjungan,
+            cara permainan digunakan, performa situs, dan error teknis. Kami
+            tidak sengaja mengirim nama pemain, isi jawaban, atau kata pencarian
+            ke analytics.
+          </p>
+        </section>
+        <section>
+          <h2>Data yang dikumpulkan</h2>
+          <p>
+            PostHog dapat memproses identifier cookie atau sesi, halaman dan
+            referrer, jenis perangkat dan browser, lokasi kasar yang diturunkan
+            dari koneksi, waktu interaksi, metrik performa, serta detail error
+            teknis. Kami juga mengirim data permainan berbentuk agregat seperti
+            mode, jumlah pemain dan ronde, ID kategori, hasil tebakan, rank,
+            dan skor.
+          </p>
+        </section>
+        <section>
+          <h2>Tujuan dan penyedia</h2>
+          <p>
+            Data dipakai untuk mengukur pengunjung, menemukan alur permainan
+            yang perlu diperbaiki, menjaga performa, dan memperbaiki error.
+            PostHog adalah penyedia analytics kami; data diproses melalui
+            layanan PostHog Cloud di Amerika Serikat.
+          </p>
+        </section>
+        <section>
+          <h2>Pilihan dan hak Anda</h2>
+          <p>
+            Anda dapat membatasi cookie melalui pengaturan browser. Untuk
+            pertanyaan, permintaan akses, koreksi, atau penghapusan data,
+            hubungi Prammmoe melalui{" "}
+            <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
+              prammmoe.space
+            </a>
+            . Data disimpan sesuai pengaturan retensi PostHog dan selama
+            diperlukan untuk tujuan di atas.
+          </p>
+        </section>
+      </section>
+      <SiteFooter />
+    </main>
+  );
+}
 export default function GameApp({
   page,
 }: {
-  page: "home" | "categories" | "about" | "quick" | "full";
+  page: "home" | "categories" | "about" | "privacy" | "quick" | "full";
 }) {
   const [game, setGameState] = useState<Game | null>(null);
   const [showModeTip, setShowModeTip] = useState(false);
@@ -693,8 +819,9 @@ export default function GameApp({
         </section>
         <SiteFooter />
       </main>
-    );
+  );
   if (page === "about") return <AboutPage />;
+  if (page === "privacy") return <PrivacyPage />;
   return (
     <main>
       <Nav />
@@ -796,7 +923,10 @@ function CategoryBrowser() {
         {allTags.map((t) => (
           <button
             className={tag === t ? "active" : ""}
-            onClick={() => setTag(t)}
+          onClick={() => {
+            if (tag !== t) posthog.capture("category_filter_used", { tag: t });
+            setTag(t);
+          }}
             key={t}
           >
             {t}
