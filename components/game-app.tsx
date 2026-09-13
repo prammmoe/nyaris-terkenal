@@ -97,7 +97,8 @@ function SiteFooter() {
         © 2026 Nyaris Terkenal · Developed by{" "}
         <a href="https://prammmoe.space/" target="_blank" rel="noreferrer">
           Prammmoe
-        </a>
+        </a>{" "}
+        · <Link href="/sawer">Dukung website ini</Link>
       </p>
     </footer>
   );
@@ -781,10 +782,34 @@ function PrivacyPage() {
     </main>
   );
 }
+function SupportPage() {
+  return (
+    <main>
+      <Nav />
+      <section className="support shell">
+        <span className="support-icon" aria-hidden="true">
+          ☕
+        </span>
+        <span className="kicker">DUKUNG WEBSITE INI</span>
+        <h1>Dukung website ini.</h1>
+        <p>Kalau website ini bikin kamu senang, terima kasih.</p>
+        <a
+          className="primary support-link"
+          href="https://saweria.co/prammmoe"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Beri dukungan ↗
+        </a>
+      </section>
+      <SiteFooter />
+    </main>
+  );
+}
 export default function GameApp({
   page,
 }: {
-  page: "home" | "categories" | "about" | "privacy" | "quick" | "full";
+  page: "home" | "categories" | "about" | "privacy" | "sawer" | "quick" | "full";
 }) {
   const [game, setGameState] = useState<Game | null>(null);
   const [showModeTip, setShowModeTip] = useState(false);
@@ -829,6 +854,7 @@ export default function GameApp({
   );
   if (page === "about") return <AboutPage />;
   if (page === "privacy") return <PrivacyPage />;
+  if (page === "sawer") return <SupportPage />;
   return (
     <main>
       <Nav />

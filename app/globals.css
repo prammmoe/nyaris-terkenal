@@ -129,6 +129,7 @@ nav > div a {
 }
 .site-footer{padding:28px 24px 36px;text-align:center;color:var(--muted);font-size:13px;font-weight:800}.site-footer p{margin:0 0 7px}.site-footer a,.privacy a{color:var(--purple-dark);text-decoration:underline;text-underline-offset:3px}
 .privacy{padding:52px 0 80px;max-width:760px}.privacy h1{font-size:clamp(36px,7vw,62px);letter-spacing:-.06em;line-height:.98;margin:12px 0 18px}.privacy section{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px 24px;margin-top:16px}.privacy h2{font-size:20px;margin:0 0 8px}.privacy p{color:var(--muted);line-height:1.7;margin:0}
+.support{min-height:calc(100vh - 190px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:72px 0}.support-icon{display:grid;place-items:center;width:70px;height:70px;margin-bottom:20px;border-radius:24px;background:var(--purple-soft);font-size:32px}.support h1{margin:10px 0 12px;font-size:clamp(42px,8vw,76px);letter-spacing:-.07em;line-height:.95}.support p{margin:0;color:var(--muted);font-size:17px}.support-link{margin-top:28px;padding:14px 22px}
 .kicker,
 .eyebrow {
   font-size: 11px;
